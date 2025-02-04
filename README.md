@@ -141,35 +141,39 @@ Durante uma das execuçãos, os seguintes dados foram obtidos:
 
 ### Gráficos de tempo de execução
 
-![Gráfico de tempos de execução](exec_time.png)
+![Gráfico de tempos de execução](grafico_tempos.png)
+
+### Tabela de tempo de execução
+
+![Tabela de tempo de execução](tabela_tempos.png)
 
 ### Média de tempos
 
 #### Média em múltiplos núcleos
 
-- Tempo médio de execução sequencial: 0.2003722s
-- Tempo médio de execução paralela com OpenMP: 0.038004206666666665s
-- Tempo médio de execução paralela com TBB: 0.05175067333333333s
+- Média sequencial: 0.199404733
+- Média OpenMP: 0.03784877
+- Média Intel TBB: 0.0521151533
 
 #### Média em um núcleo único
 
-- Tempo médio de execução sequencial: 0.2023678s
-- Tempo médio de execução paralela com OpenMP: 0.23116073333333334s
-- Tempo médio de execução paralela com TBB: 0.2913215333333333s
+- Média sequencial: 0.199971066
+- Média OpenMP: 0.2265345
+- Média Intel TBB: 0.294907166
 
 ### Desvio padrão de tempos
 
 #### Devio padrão em múltiplos núcleos
 
-- Desvio padrão de execução sequencial: 0.004956362183754504s
-- Desvio padrão de execução paralela com OpenMP: 0.003386186079773316s
-- Desvio padrão de execução paralela com TBB: 0.0012588611607413222s
+- Desvio padrão sequencial: 0.0037987002580586312
+- Desvio padrão OpenMP: 0.00284599685343442
+- Desvio padrão Intel TBB: 0.0023078191327465985
 
 #### Devio padrão em núcleo único
 
-- Desvio padrão de execução sequencial: 0.006888428785364229s
-- Desvio padrão de execução paralela com OpenMP: 0.00902324934948539s
-- Desvio padrão de execução paralela com TBB: 0.01783766294753562s
+- Desvio padrão sequencial: 0.00511932370219115
+- Desvio padrão OpenMP: 0.008173279237857961
+- Desvio padrão Intel TBB: 0.020635977267841
 
 Os resultados obtidos mostram que, em múltiplos núcleos, as execuções paralelas com OpenMP e TBB são mais eficientes do que a execução sequencial, sendo a OpenMP a abordagem mais eficiente, porém, a execução paralela com TBB possui um desvio padrão menor do que a execução paralela com OpenMP, tendo resultados mais sólidos.
 

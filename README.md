@@ -163,13 +163,13 @@ Durante uma das execuçãos, os seguintes dados foram obtidos:
 
 ### Desvio padrão de tempos
 
-#### Devio padrão em múltiplos núcleos
+#### Desvio padrão em múltiplos núcleos
 
 - Desvio padrão sequencial: 0.0037987002580586312
 - Desvio padrão OpenMP: 0.00284599685343442
 - Desvio padrão Intel TBB: 0.0023078191327465985
 
-#### Devio padrão em núcleo único
+#### Desvio padrão em núcleo único
 
 - Desvio padrão sequencial: 0.00511932370219115
 - Desvio padrão OpenMP: 0.008173279237857961

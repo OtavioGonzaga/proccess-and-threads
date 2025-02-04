@@ -22,7 +22,7 @@ int main()
 	// Cálculo paralelo com OpenMP
 	int resultado_paralelo_omp = 0;
 	auto inicio_paralela_omp = std::chrono::high_resolution_clock::now();
-#pragma omp parallel for reduction(+ : resultado_paralelo_omp)
+	#pragma omp parallel for reduction(+ : resultado_paralelo_omp)
 	for (int i = 0; i < N; ++i)
 	{
 		resultado_paralelo_omp += vetor[i];
@@ -30,7 +30,7 @@ int main()
 	auto fim_paralela_omp = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> duracao_paralela_omp = fim_paralela_omp - inicio_paralela_omp;
 
-	// Cálculo paralelo com TBB
+	// Cálculo paralelo com Intel TBB
 	auto inicio_paralela_tbb = std::chrono::high_resolution_clock::now();
 	int resultado_paralelo_tbb = tbb::parallel_reduce(
 		tbb::blocked_range<int>(0, N), 0,

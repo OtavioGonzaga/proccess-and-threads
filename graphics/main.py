@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import statistics
+from PIL import Image, ImageDraw, ImageFont
 
-num_execucoes = int(input("Quantas execuções? "));
+num_execucoes = int(input("Quantas execuções? "))
 
 tempos_sequencial = []
 tempos_openmp = []
@@ -100,19 +101,63 @@ print(f"Desvio padrão openmp (um núcleo): {desvio_openmp_um_nucleo}")
 print(f"\nMédia tbb (um núcleo): {media_tbb_um_nucleo}")
 print(f"Desvio padrão tbb (um núcleo): {desvio_tbb_um_nucleo}")
 
-execucoes = np.arange(1, num_execucoes + 1)
-tempos_sequencial = np.array(tempos_sequencial)
-tempos_openmp = np.array(tempos_openmp)
-tempos_tbb = np.array(tempos_tbb)
+def adicionar_rotulos(x, y):
+    for i, j in zip(x, y):
+        plt.text(i, j, f"{j:.3f}", fontsize=8, ha='right')
 
-plt.plot(execucoes, tempos_sequencial, label='Sequencial')
-plt.plot(execucoes, tempos_openmp, label='OpenMP')
-plt.plot(execucoes, tempos_tbb, label='TBB')
-plt.plot(execucoes, tempos_sequencial_um_nucleo, label='Sequencial (um núcleo)')
-plt.plot(execucoes, tempos_openmp_um_nucleo, label='OpenMP (um núcleo)')
-plt.plot(execucoes, tempos_tbb_um_nucleo, label='TBB (um núcleo)')
+execucoes = np.arange(1, num_execucoes + 1)
+
+adicionar_rotulos(execucoes, tempos_sequencial)
+adicionar_rotulos(execucoes, tempos_openmp)
+adicionar_rotulos(execucoes, tempos_tbb)
+adicionar_rotulos(execucoes, tempos_sequencial_um_nucleo)
+adicionar_rotulos(execucoes, tempos_openmp_um_nucleo)
+adicionar_rotulos(execucoes, tempos_tbb_um_nucleo)
+
+plt.plot(execucoes, tempos_sequencial, marker='o', label='Sequencial')
+plt.plot(execucoes, tempos_openmp, marker='s', label='OpenMP')
+plt.plot(execucoes, tempos_tbb, marker='^', label='TBB')
+plt.plot(execucoes, tempos_sequencial_um_nucleo, marker='o', linestyle='dashed', label='Sequencial (um núcleo)')
+plt.plot(execucoes, tempos_openmp_um_nucleo, marker='s', linestyle='dashed', label='OpenMP (um núcleo)')
+plt.plot(execucoes, tempos_tbb_um_nucleo, marker='^', linestyle='dashed', label='TBB (um núcleo)')
 plt.xlabel("Execução")
 plt.ylabel("Tempo (segundos)")
-plt.title(f"Tempos de execução nas {num_execucoes} execuções")
+plt.title("Tempos de execução")
 plt.legend()
-plt.show()
+plt.grid()
+figure = plt.gcf()
+figure.set_size_inches(32, 18)
+plt.savefig("../grafico_tempos.png", bbox_inches='tight', dpi=150)
+
+def gerar_tabela_imagem():
+    largura, altura = 800, 30 * (num_execucoes + 2)
+    imagem = Image.new("RGB", (largura, altura), "white")
+    draw = ImageDraw.Draw(imagem)
+    fonte = ImageFont.load_default()
+
+    colunas = ["Execucao", "Seq.", "OpenMP", "TBB", "Seq. (1 Nuc.)", "OpenMP (1 Nuc.)", "TBB (1 Nuc.)"]
+    espacamento = [80, 80, 80, 80, 100, 120, 100]
+    x_inicial = 20
+    y = 10
+    
+    for i, titulo in enumerate(colunas):
+        draw.text((x_inicial + sum(espacamento[:i]), y), titulo, fill="black", font=fonte)
+    y += 30
+    
+    for i in range(num_execucoes):
+        valores = [
+            str(i + 1),
+            f"{tempos_sequencial[i]:.5f}",
+            f"{tempos_openmp[i]:.5f}",
+            f"{tempos_tbb[i]:.5f}",
+            f"{tempos_sequencial_um_nucleo[i]:.5f}",
+            f"{tempos_openmp_um_nucleo[i]:.5f}",
+            f"{tempos_tbb_um_nucleo[i]:.5f}"
+        ]
+        for j, valor in enumerate(valores):
+            draw.text((x_inicial + sum(espacamento[:j]), y), valor, fill="black", font=fonte)
+        y += 30
+    
+    imagem.save("../tabela_tempos.png")
+
+gerar_tabela_imagem()
